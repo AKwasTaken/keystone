@@ -454,7 +454,7 @@ swapRatioBtn.addEventListener("click", () => {
 
 window.addEventListener("resize", renderFinalTransform);
 window.addEventListener("DOMContentLoaded", () => {
-  targetView.src = "https://akwastaken.github.io";
+  targetView.src = "https://example.com";
   updateDimensions("100%", "100%");
 });
 

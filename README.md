@@ -1,4 +1,4 @@
-![Banner](assets/banner.jpg)
+![Banner](assets/banners/banner.jpg)
 
 A desktop performance workbench built in Electron. Keystone gives you a controllable browser window with device emulation, network throttling, and cache/cookie control, plus a full built-in reporting suite so you don't have to bounce between five different websites and paywalled tools to understand how a page actually performs.
 
@@ -17,6 +17,9 @@ Everything runs locally on your machine. Nothing is sent to a third-party server
 * **X-Ray mode** to outline every element on the page, and a **dark mode override** independent of the site's own theme.
 * **Screenshot capture**, saved straight to your Pictures folder.
 * **Native DevTools** access for the loaded page, one click away.
+
+![Banner](assets/banners/summary.jpg)
+
 
 ### The Reports panel
 
@@ -39,6 +42,8 @@ Keystone uses Electron's `<webview>` tag as the browser surface you interact wit
 For anything that runs a full audit (Summary, Diagnostics, Security, Coverage, Baseline), Keystone launches a separate, temporary instance of `chrome-headless-shell` in the background. This is a stripped-down, headless-only build of Chromium made for exactly this kind of automation. It's used instead of a full Chrome install so nothing has to already be on your system for these reports to work, and instead of a full Chromium download so the app stays as light as it reasonably can. Each audit closes its browser instance when it's done.
 
 Everything is built on Google's own Lighthouse engine underneath, the same one that powers PageSpeed Insights. Keystone doesn't reimplement any of that scoring logic. It just gives you a nicer, unified place to run it, without hitting a paywall or a request limit.
+
+![Banner](assets/banners/runtime.jpg)
 
 ---
 

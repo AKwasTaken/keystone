@@ -147,3 +147,8 @@ This is expected behavior, not a crash. Each report is isolated on purpose, so i
 **Scores change slightly between runs of the same page.**
 A few points of variance run to run is normal and expected. Lighthouse measures a real page load each time, and small timing differences are part of how that works. It is not a sign that anything is broken.
 
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

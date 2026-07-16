@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keystone - Performance Workbench</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav id="control-bar" aria-label="Main Controls">
+      <div class="control-btns">
+        <button
+          class="control-btn"
+          id="back-btn"
+          disabled
+          aria-label="Navigate Back"
+          title="Back"
+        >
+          <img src="assets/icons/chevron.left.svg" alt="" aria-hidden="true" />
+        </button>
+        <button
+          class="control-btn"
+          id="forward-btn"
+          disabled
+          aria-label="Navigate Forward"
+          title="Forward"
+        >
+          <img src="assets/icons/chevron.right.svg" alt="" aria-hidden="true" />
+        </button>
+      </div>
+
+      <button
+        class="control-btn single-btn"
+        id="refresh-btn"
+        aria-label="Reload Page"
+        title="Reload Page"
+      >
+        <img src="assets/icons/arrow.clockwise.svg" alt="" aria-hidden="true" />
+      </button>
+
+      <input
+        type="text"
+        id="url-input"
+        placeholder="Enter website URL (e.g., https://github.com)"
+        value="https://akwastaken.github.io"
+        aria-label="Target Web Address Input"
+        partition="persist:default"
+      />
+
+      <div
+        class="ratio-container"
+        role="group"
+        aria-label="Device Custom Aspect Ratio"
+      >
+        <input
+          type="number"
+          id="ratio-width"
+          placeholder="Width"
+          min="1"
+          max="6144"
+          aria-label="Viewport Width in Pixels"
+        />
+        <button
+          class="control-btn ratio-swap-btn"
+          id="swap-ratio-btn"
+          aria-label="Swap Dimension Orientation"
+          title="Swap Orientation"
+        >
+          <img
+            src="assets/icons/arrow.left.arrow.right.svg"
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+        <input
+          type="number"
+          id="ratio-height"
+          placeholder="Height"
+          min="1"
+          max="6144"
+          aria-label="Viewport Height in Pixels"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select id="preset-dimensions" aria-label="Preset Device Dimensions">
+          <option value="100%,100%">Full Screen</option>
+
+          <option value="360,800">Samsung Galaxy S24 (360x800)</option>
+          <option value="375,667">iPhone SE (375x667)</option>
+          <option value="393,852">iPhone 15 Pro (393x852)</option>
+          <option value="412,915">Google Pixel 8 (412x915)</option>
+          <option value="430,932">iPhone 15 Pro Max (430x932)</option>
+
+          <option value="744,1133">iPad Mini (744x1133)</option>
+          <option value="800,1280">Galaxy Tab S9 (800x1280)</option>
+          <option value="820,1180">iPad Air (820x1180)</option>
+
+          <option value="1366,768">Laptop HD (1366x768)</option>
+          <option value="1440,900">MacBook Air 13" (1440x900)</option>
+          <option value="1728,1117">MacBook Pro 16" (1728x1117)</option>
+          <option value="1920,1080">Desktop Full HD (1920x1080)</option>
+          <option value="2560,1440">QHD Monitor (2560x1440)</option>
+
+          <option value="custom" disabled>Custom</option>
+        </select>
+      </div>
+
+      <div
+        class="ratio-container"
+        role="group"
+        aria-label="Throttling Constraints"
+      >
+        <input
+          type="number"
+          id="network-speed-input"
+          placeholder="Mbps"
+          min="0.1"
+          max="1000"
+          step="0.1"
+          aria-label="Custom Download Speed limit in Megabits per second"
+        />
+        <select
+          id="network-preset-select"
+          style="
+            border: none;
+            box-shadow: none;
+            height: 100%;
+            padding-right: 24px;
+          "
+          aria-label="Network Preset Selection"
+        >
+          <option value="none">Uncapped</option>
+          <option value="fast3g">Fast 3G</option>
+          <option value="slow3g">Slow 3G</option>
+          <option value="custom">Custom Mbps</option>
+          <option value="offline">Offline</option>
+        </select>
+      </div>
+
+      <button
+        id="load-btn"
+        aria-label="Load Website Address"
+        title="Load Website"
+      >
+        <img src="assets/icons/return.svg" alt="" aria-hidden="true" />
+      </button>
+    </nav>
+
+    <div
+      id="progress-container"
+      role="progressbar"
+      aria-label="Page Load State Indicator"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <div id="progress-bar"></div>
+    </div>
+
+    <div id="main-body">
+      <main id="workspace" aria-label="Device Canvas Sandbox Area">
+        <div id="view-container">
+          <webview id="target-view" partition="persist:default" useragent="...">
+          </webview>
+        </div>
+      </main>
+
+      <aside id="report-panel" aria-label="Audit Report Panel">
+        <div id="report-header">
+          <div class="report-tabs">
+            <button class="report-tab-btn active" data-tab="summary">
+              Summary
+            </button>
+            <button class="report-tab-btn" data-tab="full">Full Report</button>
+            <button class="report-tab-btn" data-tab="diagnostics">
+              Diagnostics
+            </button>
+            <button class="report-tab-btn" data-tab="security">Security</button>
+            <button class="report-tab-btn" data-tab="coverage">Coverage</button>
+            <button class="report-tab-btn" data-tab="baseline">Baseline</button>
+            <button class="report-tab-btn" data-tab="runtime">Runtime</button>
+          </div>
+        </div>
+
+        <div id="report-content">
+          <div class="report-tab" id="tab-full">
+            <p class="report-lede">
+              The full interactive Lighthouse report opens in its own window so
+              it isn't squeezed into this panel.
+            </p>
+            <div id="full-report-stats" class="report-list"></div>
+            <button
+              id="open-full-report-btn"
+              class="report-primary-btn"
+              disabled
+            >
+              Open Full Report ↗
+            </button>
+          </div>
+
+          <div class="report-tab active" id="tab-summary">
+            <div class="score-grid">
+              <div class="score-ring">
+                <span id="score-performance">--</span><label>Performance</label>
+              </div>
+              <div class="score-ring">
+                <span id="score-accessibility">--</span
+                ><label>Accessibility</label>
+              </div>
+              <div class="score-ring">
+                <span id="score-best-practices">--</span
+                ><label>Best Practices</label>
+              </div>
+              <div class="score-ring">
+                <span id="score-seo">--</span><label>SEO</label>
+              </div>
+            </div>
+            <div id="top-issues-container"></div>
+          </div>
+
+          <div class="report-tab" id="tab-diagnostics">
+            <p class="report-lede">
+              Compare a cold (empty cache) load against a warm (cached) load to
+              see the real benefit of browser caching.
+            </p>
+            <button id="run-diagnostics-btn" class="report-primary-btn">
+              Run Cold vs Warm Comparison
+            </button>
+            <div id="diagnostics-results"></div>
+          </div>
+
+          <div class="report-tab" id="tab-security">
+            <p class="report-lede">
+              Passive check of response headers and protocol, not a
+              vulnerability scan.
+            </p>
+            <button id="run-security-btn" class="report-primary-btn">
+              Run Security Scan
+            </button>
+            <div id="security-results"></div>
+          </div>
+
+          <div class="report-tab" id="tab-coverage">
+            <p class="report-lede">
+              Snapshot of code loaded but never executed during initial load.
+              Interaction-only code paths won't show here.
+            </p>
+            <button id="run-coverage-btn" class="report-primary-btn">
+              Run Coverage Scan
+            </button>
+            <div id="coverage-results"></div>
+          </div>
+
+          <div class="report-tab" id="tab-baseline">
+            <p class="report-lede">
+              Compare your current page against up to 2 other URLs, run
+              sequentially.
+            </p>
+            <input
+              type="text"
+              id="baseline-url-1"
+              placeholder="https://competitor.com"
+              class="baseline-input"
+            />
+            <input
+              type="text"
+              id="baseline-url-2"
+              placeholder="https://another-competitor.com (optional)"
+              class="baseline-input"
+            />
+            <button id="run-baseline-btn" class="report-primary-btn">
+              Run Comparison
+            </button>
+            <div id="baseline-results"></div>
+          </div>
+
+          <div class="report-tab" id="tab-runtime">
+            <p class="report-lede">
+              Live main-thread busyness and JS heap usage while you interact
+              with the page. Not a literal frame-by-frame FPS counter. Might
+              have a delay of a few seconds.
+            </p>
+
+            <button id="toggle-profiler-btn" class="report-primary-btn">
+              Start Monitoring
+            </button>
+            <button id="reset-profiler-btn" class="report-secondary-btn">
+              Reset Graph
+            </button>
+
+            <canvas id="runtime-chart" width="400" height="140"></canvas>
+
+            <div class="runtime-legend">
+              <span class="legend-item"
+                ><span class="legend-swatch swatch-busy"></span>Main Thread Busy
+                (%)</span
+              >
+              <span class="legend-item"
+                ><span class="legend-swatch swatch-heap"></span>JS Heap
+                (MB)</span
+              >
+            </div>
+
+            <div id="runtime-stats"></div>
+          </div>
+        </div>
+
+        <div class="report-footer device-toggle" id="device-toggle">
+          <button class="device-toggle-btn active" data-formfactor="mobile">
+            <img
+              src="assets/icons/apps.iphone.svg"
+              alt="Mobile"
+              aria-hidden="true"
+            />
+          </button>
+          <button class="device-toggle-btn" data-formfactor="desktop">
+            <img
+              src="assets/icons/desktopcomputer.svg"
+              alt="Desktop"
+              aria-hidden="true"
+            />
+          </button>
+          <button id="run-audit-btn">Run Audit</button>
+        </div>
+
+        <div id="report-loading-overlay" class="hidden">
+          <div class="spinner"></div>
+          <div id="report-loading-text">Running audit...</div>
+        </div>
+      </aside>
+    </div>
+
+    <div
+      id="diagnostic-dock"
+      role="toolbar"
+      aria-label="Diagnostic Dock Settings"
+    >
+      <div class="dock-section" role="group" aria-label="Wipe States On Load">
+        <label class="toggle-label">
+          <input type="checkbox" id="clear-cache-cb" checked />
+          <span>Cache</span>
+        </label>
+        <label class="toggle-label">
+          <input type="checkbox" id="clear-dns-cb" checked />
+          <span>DNS</span>
+        </label>
+        <label class="toggle-label">
+          <input type="checkbox" id="clear-cookies-cb" />
+          <span>Cookies</span>
+        </label>
+      </div>
+
+      <div
+        class="dock-section"
+        role="group"
+        aria-label="Visual Emulation Styles"
+      >
+        <label class="toggle-label">
+          <input type="checkbox" id="xray-mode-cb" />
+          <span>X-Ray</span>
+        </label>
+        <label class="toggle-label">
+          <input type="checkbox" id="dark-mode-cb" />
+          <span>Dark Mode</span>
+        </label>
+
+        <div class="select-wrapper" style="margin-left: 8px">
+          <select
+            id="preset-scale"
+            style="
+              height: 24px;
+              padding: 2px 24px 2px 8px;
+              font-size: 11px;
+              line-height: 1;
+            "
+            aria-label="Browser Scale Factor percentage"
+          >
+            <option value="50">50%</option>
+            <option value="75">75%</option>
+            <option value="100" selected>100%</option>
+            <option value="125">125%</option>
+            <option value="150">150%</option>
+            <option value="200">200%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dock-section utility-actions">
+        <div
+          class="control-btn single-btn"
+          id="screenshot-btn"
+          role="button"
+          tabindex="0"
+          aria-label="Capture Screen Viewport Screenshot"
+          title="Capture Viewport"
+          style="cursor: pointer"
+        >
+          <img src="assets/icons/viewfinder.svg" alt="" aria-hidden="true" />
+        </div>
+
+
+        <button
+          type="button"
+          class="control-btn single-btn"
+          id="js-toggle-btn"
+          aria-pressed="false"
+          aria-label="Toggle JavaScript execution state"
+          title="Toggle JavaScript"
+        >
+          <img src="assets/icons/js.svg" alt="" aria-hidden="true" />
+        </button>
+
+        <button
+          type="button"
+          class="control-btn single-btn"
+          id="css-toggle-btn"
+          aria-pressed="false"
+          aria-label="Toggle CSS rules rendering engine"
+          title="Toggle CSS"
+        >
+          <img src="assets/icons/css.svg" alt="" aria-hidden="true" />
+        </button>
+
+        <div
+          class="control-btn single-btn"
+          id="report-btn"
+          role="button"
+          tabindex="0"
+          aria-label="Open Report Tab"
+          title="Open Report"
+          style="cursor: pointer"
+        >
+          <img
+            src="assets/icons/chart.line.text.clipboard.svg"
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+
+        <div
+          class="control-btn single-btn"
+          id="devtools-toggle-btn"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle Native Chrome Developer Tools window"
+          title="Toggle DevTools"
+          style="cursor: pointer"
+        >
+          <img src="assets/icons/scope.svg" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+
+    <script src="js/inspector.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/security.js"></script>
+  </body>
+</html>

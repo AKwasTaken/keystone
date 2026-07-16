@@ -1,0 +1,43 @@
+{
+  "name": "keystone-workbench",
+  "productName": "Keystone",
+  "version": "1.0.0",
+  "description": "Professional Web Performance & Diagnostic Engineering Workbench",
+  "main": "main.js",
+  "author": "Aneeth Kumaar",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "electron-rebuild -v 43.1.1",
+    "start": "electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-dmg": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
+    "@electron/rebuild": "^4.2.0",
+    "electron": "^43.1.1"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "puppeteer@25.3.0": true,
+    "fs-xattr@0.3.1": true,
+    "macos-alias@0.2.12": true,
+    "electron-winstaller@5.4.4": true
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
+    "lighthouse": "^12.6.1",
+    "puppeteer": "^25.3.0"
+  }
+}

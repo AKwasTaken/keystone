@@ -58,7 +58,7 @@ Looking to install, run, or build Keystone for your system?
 
 All documentation covering installation prerequisites, multi-platform setup steps (macOS, Windows, and Linux), manual native compilation steps, and standalone installer packaging using Electron Forge has been moved to the repo wiki.
 
-**[Check out the Keystone Project Wiki for full Installation and Build Guides](https://github.com/AKwasTaken/keystone/wiki)**
+**[Check out the Wiki for full Installation and Build Guides](https://github.com/AKwasTaken/keystone/wiki)**
 
 ---
 

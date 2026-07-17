@@ -58,7 +58,15 @@ Looking to install, run, or build Keystone for your system?
 
 All documentation covering installation prerequisites, multi-platform setup steps (macOS, Windows, and Linux), manual native compilation steps, and standalone installer packaging using Electron Forge has been moved to the repo wiki.
 
+To be transparent, I only compiled it on macOS, and I am pretty sure the app will compile without any issues on all kernels.
+
 **[Check out the Wiki for full Installation and Build Guides](https://github.com/AKwasTaken/keystone/wiki)**
+
+### Lightweight hassle-free MacOS install
+
+1. Download the [latest release](https://github.com/AKwasTaken/keystone/releases/tag/v1.0.0) from the releases section.
+2. Mount the DMG by double clicking on the file.
+3. Drag the App Icon to the `Applications` folder.
 
 ---
 

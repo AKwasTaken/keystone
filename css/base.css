@@ -1,0 +1,105 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-workspace);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* Lock down the outer window frame from scrolling */
+}
+
+input,
+select,
+button,
+textarea,
+::placeholder {
+  font-family: "Outfit", sans-serif;
+}
+
+input,
+select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  padding: 7px 12px;
+  border-radius: var(--radius-ui);
+  outline: none;
+  font-size: 13px;
+  height: 34px;
+  box-sizing: border-box;
+  transition: var(--transition);
+  box-shadow: var(--shadow-subtle);
+}
+
+input:hover,
+select:hover {
+  border-color: #a4969d;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent-action);
+  box-shadow: 0 0 0 3px var(--accent-focus);
+}
+
+input:focus::placeholder {
+  opacity: 0;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+}
+
+/* Custom Select Dropdown Chevron styling */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-color: var(--text-muted);
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  pointer-events: none;
+}
+
+select {
+  padding-right: 32px;
+  padding-left: 16px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+button:disabled:not(#refresh-btn),
+.control-btn:disabled:not(#refresh-btn) {
+  opacity: 0.25;
+  cursor: not-allowed;
+  background: transparent !important;
+}
+
+/* Base Loader Animations */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border-light);
+  border-top-color: var(--accent-action);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

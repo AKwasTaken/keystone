@@ -41,7 +41,7 @@ Keystone uses Electron's `<webview>` tag as the browser surface you interact wit
 
 For anything that runs a full audit (Summary, Diagnostics, Security, Coverage, Baseline), Keystone launches a separate, temporary instance of [chrome-headless-shell](https://developer.chrome.com/blog/chrome-headless-shell) in the background. This is a stripped-down, headless-only build of Chromium made for exactly this kind of automation. It's used instead of a full Chrome install so nothing has to already be on your system for these reports to work, and instead of a full Chromium download so the app stays as light as it reasonably can. Each audit closes its browser instance when it's done.
 
-Everything is built on Google's own [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) engine underneath, the same one that powers PageSpeed Insights. Keystone doesn't reimplement any of that scoring logic. It just gives you a nicer, unified place to run it, without hitting a paywall or a request limit.
+Everything is built on Google's own [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) engine underneath, the same one that powers [PageSpeed Insights](https://pagespeed.web.dev). Keystone doesn't reimplement any of that scoring logic. It just gives you a nicer, unified place to run it, without hitting a paywall or a request limit.
 
 ### Behind the Scenes
 Keystone is a passion project I built out of real-world friction. Here is a breakdown of how it was designed and put together:
